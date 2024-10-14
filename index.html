@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration & Login Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            box-sizing: border-box;
+        }
+        label {
+            margin-top: 10px;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Registration Form</h2>
+        <form id="registrationForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <p id="nameError" class="error"></p>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <p id="emailError" class="error"></p>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <p id="passwordError" class="error"></p>
+
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <p id="confirmPasswordError" class="error"></p>
+
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" min="18" max="100" required>
+            <p id="ageError" class="error"></p>
+
+            <label>Gender:</label>
+            <input type="radio" name="gender" value="Male" required> Male
+            <input type="radio" name="gender" value="Female" required> Female
+            <p id="genderError" class="error"></p>
+
+            <label for="country">Country:</label>
+            <select id="country" name="country" required>
+                <option value="">Select your country</option>
+                <option value="USA">USA</option>
+                <option value="Canada">Canada</option>
+                <option value="UK">UK</option>
+                <option value="Nigeria">Nigeria</option>
+            </select>
+            <p id="countryError" class="error"></p>
+
+            <input type="checkbox" id="terms" name="terms" required> I agree to the Terms and Conditions
+            <p id="termsError" class="error"></p>
+
+            <button type="button" class="submit-btn" onclick="validateRegistrationForm()">Register</button>
+        </form>
+    </div>
+
+    <div class="container" style="margin-top: 30px;">
+        <h2>Login Form</h2>
+        <form id="loginForm">
+            <label for="loginEmail">Email:</label>
+            <input type="email" id="loginEmail" name="email" required>
+            <p id="loginEmailError" class="error"></p>
+
+            <label for="loginPassword">Password:</label>
+            <input type="password" id="loginPassword" name="password" required>
+            <p id="loginPasswordError" class="error"></p>
+
+            <button type="button" class="submit-btn" onclick="validateLoginForm()">Login</button>
+        </form>
+    </div>
+
+    <script>
+        function validateRegistrationForm() {
+            // Clear previous error messages
+            document.querySelectorAll('.error').forEach(e => e.textContent = '');
+
+            // Get form values
+            let name = document.getElementById('name').value;
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+            let confirmPassword = document.getElementById('confirmPassword').value;
+            let age = document.getElementById('age').value;
+            let gender = document.querySelector('input[name="gender"]:checked');
+            let country = document.getElementById('country').value;
+            let terms = document.getElementById('terms').checked;
+
+            let valid = true;
+
+            // Name validation
+            if (!name) {
+                document.getElementById('nameError').textContent = "Name is required.";
+                valid = false;
+            }
+
+            // Email validation
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.match(emailPattern)) {
+                document.getElementById('emailError').textContent = "Invalid email format.";
+                valid = false;
+            }
+
+            // Password validation
+            if (password.length < 8) {
+                document.getElementById('passwordError').textContent = "Password must be at least 8 characters long.";
+                valid = false;
+            }
+
+            // Confirm password validation
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').textContent = "Passwords do not match.";
+                valid = false;
+            }
+
+            // Age validation
+            if (age < 18 || age > 100) {
+                document.getElementById('ageError').textContent = "Age must be between 18 and 100.";
+                valid = false;
+            }
+
+            // Gender validation
+            if (!gender) {
+                document.getElementById('genderError').textContent = "Gender is required.";
+                valid = false;
+            }
+
+            // Country validation
+            if (!country) {
+                document.getElementById('countryError').textContent = "Please select your country.";
+                valid = false;
+            }
+
+            // Terms and conditions validation
+            if (!terms) {
+                document.getElementById('termsError').textContent = "You must agree to the terms and conditions.";
+                valid = false;
+            }
+
+            if (valid) {
+                alert('Registration successful!');
+                // You can submit the form or perform other actions here
+            }
+        }
+
+        function validateLoginForm() {
+            // Clear previous error messages
+            document.querySelectorAll('.error').forEach(e => e.textContent = '');
+
+            // Get form values
+            let email = document.getElementById('loginEmail').value;
+            let password = document.getElementById('loginPassword').value;
+
+            let valid = true;
+
+            // Email validation
+            let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.match(emailPattern)) {
+                document.getElementById('loginEmailError').textContent = "Invalid email format.";
+                valid = false;
+            }
+
+            // Password validation
+            if (password.length < 8) {
+                document.getElementById('loginPasswordError').textContent = "Password must be at least 8 characters long.";
+                valid = false;
+            }
+
+            if (valid) {
+                alert('Login successful!');
+                // You can submit the form or perform other actions here
+            }
+        }
+    </script>
+
+</body>
+</html>
